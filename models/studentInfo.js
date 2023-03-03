@@ -11,6 +11,5 @@ const studentInfo = new schema({
 
 
 });
-
 module.exports = mongoose.model('studentInfo', studentInfo)
 

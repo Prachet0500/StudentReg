@@ -3,7 +3,7 @@ const { request } = require('express');
 const bodyParser = require('body-parser')
 const express = require('express');
 const app= express();
-const router=require('./routes.js');
+const router=require('./Routers/studentInfoRoutes.js');
 app.get('/',(req, res)=>{res.send("app running,get request succesful")});
 // app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
