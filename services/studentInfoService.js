@@ -31,4 +31,8 @@ async function deleteStudent(id,body)
      await studentInfo.deleteOne({ _id: id })
 }
 
+async function validateRequest(body){
+    
+}
+
 module.exports={findStudents,findStudentById,saveStudent,findUpdateStudent,deleteStudent}

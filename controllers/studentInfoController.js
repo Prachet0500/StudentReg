@@ -6,7 +6,6 @@ const{findStudents,
     saveStudent,
     deleteStudent} =studentInfoService;
 async function getAllStudents(req,res){
-    console.log(req.query,"query")
     const students = await findStudents(req.query).catch(
         err=>{res.status(500).send(err)}
     )
@@ -14,14 +13,14 @@ async function getAllStudents(req,res){
 }
 async function getOneStudent(req,res){
     const student=await findStudentById(req.params.id).catch(
-        err=>{res.status(500).send(err)}
+        err=>{res.status(500).send(err.message)}
     )
     res.status(200).json({student})
 
 }
 async function createStudent(req,res){
     const student =await saveStudent(req.body).catch(
-        err=>{res.status(500).send(err)}
+        err=>{if(err&&err!=null)res.status(500).send(err)}
     ) 
     res.status(200).json({message:"new student document created",student:student})      
 }

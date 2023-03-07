@@ -6,7 +6,9 @@ const studentInfo = new schema({
    lastName: String,
    age: Number,
    email:String,
-   subjects:[String],
+   college:String, 
+   batch:Number,
+   majors:[String],
    instrument: String,
 
 
