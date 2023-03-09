@@ -1,34 +1,34 @@
-const studentInfo=require("../models/studentInfo");
+const student=require("../models/student");
 
 async function findStudents(query)
 {   const where={};
     if(query.firstName) where.firstName=query.firstName;
     if(query.lastName) where.lastName=query.lastName;
     if(query.email) where.email=query.email;
-    if(query.subjects) where.subjects={$elemMatch: {$in:query.subjects}}
-    return await studentInfo.find(where) ;  
+    if(query.college) where.college=query.college;
+    if(query.majors) where.majors={$elemMatch: {$in:query.majors}}
+    return await student.find(where) ;  
     
 }
 
 async function findStudentById(id)
 {
-    return await studentInfo.find({_id:id});
+    return await student.find({_id:d});
 }
 
 async function saveStudent(body)
-{    const student = new studentInfo(body);
-     return await student.save();
-  
+{
+   return await student.create(ody);
     }
 
 async function findUpdateStudent(id,body)
-{   await studentInfo.findOneAndUpdate({_id: id},body);
-    return await studentInfo.findOne({_id:id});
+{   await student.findOneAndUpdate({_id: id},body);
+    return await student.findOne({_id:id});
     }
 
 async function deleteStudent(id,body)
 {
-     await studentInfo.deleteOne({ _id: id })
+     await student.deleteOne({ _id: id })
 }
 
 async function validateRequest(body){
