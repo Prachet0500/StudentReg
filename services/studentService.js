@@ -13,12 +13,12 @@ async function findStudents(query)
 
 async function findStudentById(id)
 {
-    return await student.find({_id:d});
+    return await student.find({_id:id});
 }
 
 async function saveStudent(body)
 {
-   return await student.create(ody);
+   return await student.create(body);
     }
 
 async function findUpdateStudent(id,body)
@@ -31,8 +31,8 @@ async function deleteStudent(id,body)
      await student.deleteOne({ _id: id })
 }
 
-async function validateRequest(body){
-    
+async function findStudentByEmail(email){
+    return await student.find({email:email});
 }
 
-module.exports={findStudents,findStudentById,saveStudent,findUpdateStudent,deleteStudent}
+module.exports={findStudents,findStudentById,saveStudent,findUpdateStudent,deleteStudent,findStudentByEmail}

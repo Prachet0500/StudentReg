@@ -4,7 +4,7 @@ const logger=require("./logger")
 const bodyParser = require('body-parser')
 const express = require('express');
 const app= express();
-const router=require('./Routers/studentRoutes.js');
+const router=require('./Routers/routerIndex.js');
 app.get('/',(req, res)=>{res.send("app running,get request succesful")});
 // app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -19,5 +19,5 @@ const uri="mongodb+srv://Prachet:pass@cluster0.5csgf9v.mongodb.net/studentReg"
 const dbConnection = mongoose.connection;
 dbConnection.on("error", (err) => logger.error(` Connection error ${err}`));
 dbConnection.once("open", () => logger.info(" Connected to DB!"));
-app.use('/student',router);
+app.use('/',router);
 module.exports= mongoose;
