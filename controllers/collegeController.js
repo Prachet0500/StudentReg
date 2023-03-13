@@ -18,15 +18,18 @@ async function getAllColleges(req,res){
 //     res.status(200).json({college})
 // }
 async function createCollege(req,res){
+    let valid=true;
     const College=await findCollegeByName(req.body.name).catch(err=>
         {catchError(req,res,err)} 
     );
-    if(College.length) res.status(400).send("College already exists")
-
-    const college =await saveCollege(req.body).catch(err=>
-        {catchError(req,res,err)}
-    ) 
-    res.status(200).json({message:"new College document created",college:college})      
+    if(College.length) {
+        valid=false;
+        res.status(400).send("College already exists")}
+    if(valid==true)
+    {   const college =await saveCollege(req.body).catch(err=>
+            {catchError(req,res,err)}
+        ) 
+        res.status(200).json({message:"new College document created",college:college})  }    
 }
 
 async function updateCollege(req,res){

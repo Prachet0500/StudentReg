@@ -2,13 +2,13 @@ const mongoose =require('mongoose');
 const schema = mongoose.Schema;
 
 const student = new schema({
-   firstName: String ,
-   lastName: String,
-   age: Number,
-   email:String,
-   college:String, 
+   firstName: {type:String,required:true} ,
+   lastName: {type:String,required:true},
+   age: {type:Number,required:true},
+   email:{type:String,required:true},
+   college:{type:String,required:true}, 
    batch:Number,
-   majors:[String],
+   majors:{type:[String],required:true},
    interests:[String],
    skiils:[String],
    hobbies:[String]

@@ -1,6 +1,7 @@
 const studentService=require("../services/studentService")
 const collegeService=require("../services/collegeService")
 const catchError=require("../utils/catchError.js")
+const handleValidationError=require("../utils/handleValidationError")
 const{findStudents,
     findUpdateStudent,
     findStudentById,
@@ -20,33 +21,18 @@ async function getOneStudent(req,res){
     res.status(200).json({student})
 }
 async function createStudent(req,res){
-    let valid =true;
     const college=await findCollegeByName(req.body.college).catch(err=>{catchError(req,res,err)});
-    if(!college.length) {
-        valid=false;
-        res.status(400).send("College doesn't exist");}
+    if(!college.length) return res.status(400).send("college doesn't exist")
 
-    const majorsValid=await validateMajors(req.body.majors,college[0].name).catch(err=>
-        {catchError(req,res,err)});
-    if(majorsValid===false) 
-        {   valid=false;
-            res.status(400).send("your college doesn't have the majors you enetered")}
+    const majorsValid=await validateMajors(req.body.majors,college[0].name).catch(err=>{catchError(req,res,err)});
+    if(majorsValid===false) return res.status(400).send("your college doesn't have the majors you enetered")
 
-    const email=await findStudentByEmail(req.body.email).catch(err=>
-        {catchError(req,res,err)} 
-    );
-    if(email.length) {
-        valid=false;
-        console.log("email")
-        res.status(400).send("email must be unique")}
-    if(valid===true)
-    {
-        const student =await saveStudent(req.body).catch(err=>
-        {catchError(req,res,err)}) 
-        res.status(200).json({message:"new student document created",student:student})  
-    }
-    res.status(500);
-        
+    const email=await findStudentByEmail(req.body.email).catch(err=>{catchError(req,res,err)});
+    if(email.length) return res.status(400).send("email must be unique")
+
+    const student =await saveStudent(req.body).catch(err=>
+    {catchError(req,res,err)}) 
+    res.status(200).json({message:"new student document created",student:student})          
 }
 
 async function updateStudent(req,res){
