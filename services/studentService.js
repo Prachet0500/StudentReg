@@ -1,5 +1,5 @@
 const student=require("../models/student");
-
+const { encryptPassword } = require("../utils/auth");
 async function findStudents(query)
 {   const where={};
     if(query.firstName) where.firstName=query.firstName;
@@ -18,6 +18,7 @@ async function findStudentById(id)
 
 async function saveStudent(body)
 {
+   body.key=await encryptPassword(body.key);    
    return await student.create(body);
     }
 
@@ -32,7 +33,7 @@ async function deleteStudent(id,body)
 }
 
 async function findStudentByEmail(email){
-    return await student.find({email:email});
+    return await student.findOne({email:email});
 }
 
 module.exports={findStudents,findStudentById,saveStudent,findUpdateStudent,deleteStudent,findStudentByEmail}

@@ -1,5 +1,5 @@
 const collegeService=require("../services/collegeService")
-const catchError=require("../utils/catchError.js")
+const {catchError}=require("../utils/catchError.js")
 const{findColleges,
     findUpdateCollege,
     saveCollege,

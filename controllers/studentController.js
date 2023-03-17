@@ -1,7 +1,8 @@
 const studentService=require("../services/studentService")
 const collegeService=require("../services/collegeService")
-const catchError=require("../utils/catchError.js")
-const handleValidationError=require("../utils/handleValidationError")
+const {catchError}=require("../utils/catchError.js");
+const { isEmptyObject } = require("../utils/general");
+const { encryptPassword } = require("../utils/auth");
 const{findStudents,
     findUpdateStudent,
     findStudentById,
@@ -28,8 +29,7 @@ async function createStudent(req,res){
     if(majorsValid===false) return res.status(400).send("your college doesn't have the majors you enetered")
 
     const email=await findStudentByEmail(req.body.email).catch(err=>{catchError(req,res,err)});
-    if(email.length) return res.status(400).send("email must be unique")
-
+    if(!isEmptyObject(email)) return res.status(400).send("email must be unique")
     const student =await saveStudent(req.body).catch(err=>
     {catchError(req,res,err)}) 
     res.status(200).json({message:"new student document created",student:student})          

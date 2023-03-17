@@ -11,7 +11,8 @@ const student = new schema({
    majors:{type:[String],required:true},
    interests:[String],
    skiils:[String],
-   hobbies:[String]
+   hobbies:[String],
+   key:{type:String,required:true}
 
 });
 module.exports = mongoose.model('student', student)
