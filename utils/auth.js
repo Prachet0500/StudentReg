@@ -5,17 +5,13 @@ const jwt = require("jsonwebtoken");
 const Constants = require("./constants");
 const { catchError } = require("./catchError");
 
-exports.encryptPassword=async (password)=> {
+exports.encryptPassword=async function (password){
   let hashed;
-  await bcrypt.genSalt(10, async function (err, Salt) {
-  
-    // The bcrypt is used for encrypting password.
-     await bcrypt.hash(password, Salt, function (err, hash) { 
-        console.log(hash,"hash")
-         hashed=hash;
-      })})
-      console.log(hashed)
-      return hashed;
+  console.log(password,"password")
+  const salt = await bcrypt.genSalt();
+  hashed = await bcrypt.hash(password, salt);
+  console.log(hashed,"hashed")
+  return hashed;
     }
 exports.getEmailFromToken = (token) => jwt.decode(token)["sub"];
 

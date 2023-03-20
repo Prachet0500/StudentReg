@@ -18,8 +18,10 @@ async function findStudentById(id)
 
 async function saveStudent(body)
 {
-   body.key=await encryptPassword(body.key);    
-   return await student.create(body);
+   Body={...body} ;
+   console.log("Body",Body)
+   Body.key=await encryptPassword(body.key) 
+   return await student.create(Body);
     }
 
 async function findUpdateStudent(id,body)

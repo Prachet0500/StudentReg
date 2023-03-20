@@ -31,9 +31,7 @@ async function deleteCollege(id,body)
 
 async function validateMajors(major,College){
     const collegeValid=await college.find({majors: {$all:major}})
-    console.log(collegeValid,College,'valid')
     collegeValid.filter(element=>element.name===College)
-    console.log(collegeValid,"val")
     if(!collegeValid.length) return false
     return true 
 }
