@@ -11,7 +11,7 @@ async function findColleges(query)
 
 async function findCollegeByName(name)
 {
-    return await college.find({name:name});
+    return await college.findOne({name:name});
 }
 
 async function saveCollege(body)

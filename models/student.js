@@ -1,3 +1,4 @@
+const { type } = require('@hapi/joi/lib/extend');
 const mongoose =require('mongoose');
 const schema = mongoose.Schema;
 
@@ -12,7 +13,8 @@ const student = new schema({
    interests:[String],
    skiils:[String],
    hobbies:[String],
-   key:{type:String,required:true}
+   key:{type:String,required:true},
+   role:{type:String,required:true}
 
 });
 module.exports = mongoose.model('student', student)

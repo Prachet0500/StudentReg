@@ -28,14 +28,27 @@ async function createStudent(req,res){
     const majorsValid=await validateMajors(req.body.majors,college[0].name).catch(err=>{catchError(req,res,err)});
     if(majorsValid===false) return res.status(400).send("your college doesn't have the majors you enetered")
 
-    const email=await findStudentByEmail(req.body.email).catch(err=>{catchError(req,res,err)});
-    if(!isEmptyObject(email)) return res.status(400).send("email must be unique")
-    const student =await saveStudent(req.body).catch(err=>
-    {catchError(req,res,err)}) 
+    const emailStudent=await findStudentByEmail(req.body.email).catch(err=>{catchError(req,res,err)});
+    if(!isEmptyObject(emailStudent)) return res.status(400).send("email must be unique")
+
+    const Body={...req.body,role:"Member"} ;
+    Body.key=await encryptPassword(req.body.key)  
+    const student =await saveStudent(Body).catch(err=>{catchError(req,res,err)}) 
     res.status(200).json({message:"new student document created",student:student})          
 }
 
 async function updateStudent(req,res){
+    const college=await findCollegeByName(req.body.college).catch(err=>{catchError(req,res,err)});
+    if(!college.length) return res.status(400).send("college doesn't exist")
+
+    const majorsValid=await validateMajors(req.body.majors,college[0].name).catch(err=>{catchError(req,res,err)});
+    if(majorsValid===false) return res.status(400).send("your college doesn't have the majors you enetered")
+
+    const emailStudent=await findStudentByEmail(req.body.email).catch(err=>{catchError(req,res,err)});
+    if(!isEmptyObject(email)&&emailStudent.email!=req.body.email) return res.status(400).send("email must be unique")
+
+    const Body={...req.body,role:"Member"} ;
+    Body.key=await encryptPassword(Body)  
     const student=await findUpdateStudent(req.params.id,req.body).catch(err=>
         {catchError(req,res,err)}
     ) ;

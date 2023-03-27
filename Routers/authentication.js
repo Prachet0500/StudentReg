@@ -1,13 +1,14 @@
 const express = require('express')
 const authentication = express.Router();
-require("dotenv").config({ path: "../.env" })
-const findStudentByEmail=require("../services/studentService");
+// require("dotenv").config({ path: "../.env" })
+const {findStudentByEmail}=require("../services/studentService");
 const { isEmptyObject } = require('../utils/general');
-const { isPasswordCorrect, generateToken, verifyToken } = require('../utils/auth');
-authentication.post("/login", (req, res) => {
-    const email = credentials[0];
-    const password = credentials[1];
-    findStudentByEmail(email).then((student) => {
+const  {isPasswordCorrect, generateToken, verifyToken}  = require('../utils/auth');
+authentication.post("/login", async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.key;
+    const student = await findStudentByEmail(email) 
+    console.log(student,"student");
       if (student && !isEmptyObject(student)) {
         isPasswordCorrect(student.key, password).then((result) => {
           if (!result)
@@ -24,9 +25,7 @@ authentication.post("/login", (req, res) => {
         });
       } else
         res.status(401).send({ message: "email or password is incorrect" });
-    });
-  });
-  
+    });  
   authentication.get("/logout", verifyToken, (req, res) => {
     res.status(200).send({ message: "Signed out" });
   });

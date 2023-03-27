@@ -1,5 +1,6 @@
 const collegeService=require("../services/collegeService")
-const {catchError}=require("../utils/catchError.js")
+const {catchError}=require("../utils/catchError.js");
+const { isEmptyObject } = require("../utils/general");
 const{findColleges,
     findUpdateCollege,
     saveCollege,
@@ -18,24 +19,18 @@ async function getAllColleges(req,res){
 //     res.status(200).json({college})
 // }
 async function createCollege(req,res){
-    let valid=true;
-    const College=await findCollegeByName(req.body.name).catch(err=>
-        {catchError(req,res,err)} 
-    );
-    if(College.length) {
-        valid=false;
-        res.status(400).send("College already exists")}
-    if(valid==true)
-    {   const college =await saveCollege(req.body).catch(err=>
-            {catchError(req,res,err)}
-        ) 
-        res.status(200).json({message:"new College document created",college:college})  }    
+    const College=await findCollegeByName(req.body.name).catch(err=>{catchError(req,res,err)});
+    if(!isEmptyObject(College)) {return res.status(400).send("College already exists")}
+    
+    const college =await saveCollege(req.body).catch(err=>{catchError(req,res,err)}) 
+    res.status(200).json({message:"new College document created",college:college})  
 }
 
 async function updateCollege(req,res){
-    const college=await findUpdateCollege(req.params.id,req.body).catch(err=>
-        {catchError(req,res,err)}
-    ) ;
+    const College=await findCollegeByName(req.body.name).catch(err=>{catchError(req,res,err)});
+    if(!isEmptyObject(College)&&College.name!=req.body.name) {return res.status(400).send("College already exists")}
+    
+    const college=await findUpdateCollege(req.params.id,req.body).catch(err=>{catchError(req,res,err)}) ;
     res.status(200).json({message:"College document updated",college:college})           
 }
 // async function removeCollege(req,res){

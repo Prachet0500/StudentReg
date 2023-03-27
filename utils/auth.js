@@ -1,11 +1,11 @@
-const { findStudentByEmail } = require("../services/studentService");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {findStudentByEmail}=require("../services/studentService");
 const Constants = require("./constants");
 const { catchError } = require("./catchError");
 
-exports.encryptPassword=async function (password){
+const encryptPassword=async  (password)=>{
   let hashed;
   console.log(password,"password")
   const salt = await bcrypt.genSalt();
@@ -13,17 +13,19 @@ exports.encryptPassword=async function (password){
   console.log(hashed,"hashed")
   return hashed;
     }
-exports.getEmailFromToken = (token) => jwt.decode(token)["sub"];
+const getEmailFromToken = (token) => jwt.decode(token)["sub"];
 
-exports.getRoleFromToken = (token) => jwt.decode(token)["aud"];
+const getRoleFromToken = (token) => jwt.decode(token)["aud"];
 
-exports.isPasswordCorrect = async function (key, password) {
+const isPasswordCorrect = async (key, password)=> {
   return await bcrypt.compare(password, key).then((result) => result);
 };
 
-exports.generateToken = async function (prevToken, emailId) {
+const generateToken = async  (prevToken, emailId) =>{
+  console.log(emailId)
   const email = emailId || getEmailFromToken(prevToken);
-  const student = await findStudentByEmail(email).catch(e=>catchError(e));
+  console.log(email,"hi")
+  const student = await findStudentByEmail(email) 
   const options = {
     algorithm: process.env.ALGORITHM,
     expiresIn: process.env.EXPIRY,
@@ -37,7 +39,7 @@ exports.generateToken = async function (prevToken, emailId) {
   return jwt.sign({}, process.env.SECRET, options);
 };
 
-exports.verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   if (!req.headers.authorization)
     res.status(401).send({ message: "Not authorized to access data" });
   else {
@@ -53,3 +55,12 @@ exports.verifyToken = (req, res, next) => {
     }
   }
 };
+
+module.exports={
+  isPasswordCorrect,
+  encryptPassword,
+  getEmailFromToken,
+  getRoleFromToken,
+  generateToken,
+  verifyToken
+}

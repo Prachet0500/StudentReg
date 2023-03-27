@@ -3,13 +3,15 @@ const router = express.Router();
 const student = require('../../models/student.js');
 const studentController = require("../../controllers/studentController.js");
 const {validation}=require("../../middleWare/validationMiddleWare.js")
-const {studentSchema} =require("../../validatiions/studentValidation.js")
+const {studentSchema} =require("../../validatiions/studentValidation.js");
+const { auth } = require('../../middleWare/authMiddleWare.js');
+const { verifyToken } = require('../../utils/auth.js');
 
-router.get('/test',studentController.getAllStudents)
+router.get('/test',verifyToken,auth("Admin"),studentController.getAllStudents)
 router.post('/test',validation(studentSchema),studentController.createStudent)
-router.get('/test/:id',studentController.getOneStudent)
-router.patch('/test/:id',studentController.updateStudent)
-router.delete('/test/:id',studentController.removeStudent)
+router.get('/test/:id',verifyToken,auth("Member"),studentController.getOneStudent)
+router.patch('/test/:id',verifyToken,auth("Member"),validation(studentSchema),studentController.updateStudent)
+router.delete('/test/:id',verifyToken,auth("Member"),studentController.removeStudent)
 
 
 module.exports=router;
