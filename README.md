@@ -3,6 +3,6 @@ A CRUD app with REST APIs for a student registration portal that takes student i
 Tech Stack :
   Backend : 1)NodeJS
             2)ExpressJS
-            3)Typescript
-            4)MongoDB/noSQL
-            5)mongoose ODM
+            3)MongoDB/noSQL
+            4)mongoose ODM
+            5)JWT
