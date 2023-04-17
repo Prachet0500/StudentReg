@@ -7,10 +7,8 @@ const { catchError } = require("./catchError");
 
 const encryptPassword=async  (password)=>{
   let hashed;
-  console.log(password,"password")
   const salt = await bcrypt.genSalt();
   hashed = await bcrypt.hash(password, salt);
-  console.log(hashed,"hashed")
   return hashed;
     }
 const getEmailFromToken = (token) => jwt.decode(token)["sub"];
@@ -22,9 +20,7 @@ const isPasswordCorrect = async (key, password)=> {
 };
 
 const generateToken = async  (prevToken, emailId) =>{
-  console.log(emailId)
   const email = emailId || getEmailFromToken(prevToken);
-  console.log(email,"hi")
   const student = await findStudentByEmail(email) 
   const options = {
     algorithm: process.env.ALGORITHM,

@@ -10,7 +10,7 @@ app.get('/',(req, res)=>{res.send("app running,get request succesful")});
 // app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.listen(5000,logger.info(' App is now running on localhost:5000'));
+app.listen(4000,logger.info(' App is now running on localhost:5000'));
 const mongoose=require('mongoose');
 const { authentication } = require('./Routers/authentication');
 const uri="mongodb+srv://Prachet:pass@cluster0.5csgf9v.mongodb.net/studentReg"

@@ -9,7 +9,6 @@ const auth=(access)=>{
         const email=getEmailFromToken(token);
         const student = await findStudentByEmail(email);
         const _student=await findStudentById(req.params.id);
-        console.log("hi from authMW",student,_student,role,access)
         if(role==="Admin")
         { 
             next();

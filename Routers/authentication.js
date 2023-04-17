@@ -8,7 +8,6 @@ authentication.post("/login", async (req, res) => {
     const email = req.body.email;
     const password = req.body.key;
     const student = await findStudentByEmail(email) 
-    console.log(student,"student");
       if (student && !isEmptyObject(student)) {
         isPasswordCorrect(student.key, password).then((result) => {
           if (!result)
