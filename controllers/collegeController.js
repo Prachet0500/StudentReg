@@ -27,8 +27,6 @@ async function createCollege(req,res){
 }
 
 async function updateCollege(req,res){
-    const College=await findCollegeByName(req.body.name).catch(err=>{catchError(req,res,err)});
-    if(!isEmptyObject(College)&&College.name!=req.body.name) {return res.status(400).send("College already exists")}
     
     const college=await findUpdateCollege(req.params.id,req.body).catch(err=>{catchError(req,res,err)}) ;
     res.status(200).json({message:"College document updated",college:college})           
